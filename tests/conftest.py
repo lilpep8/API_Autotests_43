@@ -1,5 +1,3 @@
-import pytest
-import requests
 from faker import Faker
 import pytest
 import requests
@@ -33,4 +31,43 @@ def item_data():
     return {
         "title": fake.word().capitalize(),
         "description": fake.sentence(nb_words=10)
+    }
+
+
+@pytest.fixture(params=[
+    {"title": "", "description": fake.sentence(nb_words=10)},  # Пустой title
+    {"title": None, "description": fake.sentence(nb_words=10)},  # None в title
+    {"title": "x" * 1001, "description": fake.sentence(nb_words=10)},  # Слишком длинный title
+    {"title": 123, "description": "valid"}, # Неправильный тип
+    {"description": "valid"}, # Отсутствие обязательного поля title
+    {} # Пустой json
+])
+
+
+def invalid_data(request):
+    return request.param
+
+
+@pytest.fixture()
+def sql_injection():
+    return {
+        "title": "Valid_sql'; DROP TABLE users;--",
+        "description": "Hack attempt"
+    }
+
+
+@pytest.fixture()
+def xss_attack():
+    return {
+        "title": "Valid_xss",
+        "description": "<script>alert('XSS');</script>"
+    }
+
+
+@pytest.fixture()
+def data_with_extra_field():
+    return {
+        "title": "test123",
+        "description": "test123",
+        "extra_field": "123"
     }

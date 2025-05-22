@@ -17,6 +17,14 @@ class TestItems:
         assert data.get("title") == item_data["title"]
         assert data.get("description") == item_data["description"]
 
+        item_id = data.get("id")
+        delete_item = auth_session.delete(f"{self.endpoint}{item_id}")
+        assert delete_item.status_code in (200, 201), \
+            f"Error deleting element with id {item_id}"
+
+        # Cleanup
+        get_deleted_item= auth_session.get(f"{self.endpoint}{item_id}")
+        assert get_deleted_item.status_code == 404, "Item was not deleted"
 
         self.created_item_id = item_id
 
@@ -52,20 +60,29 @@ class TestItems:
         assert new_data.get("title") != old_title, "Titles match"
         assert new_data.get("title") != old_description, "Description match"
 
+        item_id = new_data.get("id")
+        delete_item = auth_session.delete(f"{self.endpoint}{item_id}")
+        assert delete_item.status_code in (200, 201), \
+            f"Error deleting element with id {item_id}"
+
+        # Cleanup
+        get_deleted_item= auth_session.get(f"{self.endpoint}{item_id}")
+        assert get_deleted_item.status_code == 404, "Item was not deleted"
+
 
     @pytest.mark.order(4)
     def test_delete_items(self, item_data, auth_session):
-        create_response = auth_session.post(f"{self.endpoint}", json=item_data)
-        assert create_response.status_code in (200, 201), \
-            f"Response: {create_response.status_code}, {create_response.text}"
-        item_id = create_response.json()["id"]
+        created_response = auth_session.post(f"{self.endpoint}", json=item_data)
+        assert created_response.status_code in (200, 201), \
+            f"Response: {created_response.status_code}, {created_response.text}"
+        item_id = created_response.json()["id"]
 
-        response = auth_session.delete(f"{self.endpoint}{item_id}")
-        assert response.status_code in (200, 201), \
-            f"Response: {response.status_code}, {response.text}"
+        deleted_item = auth_session.delete(f"{self.endpoint}{item_id}")
+        assert deleted_item.status_code in (200, 201), \
+            f"Response: {deleted_item.status_code}, {deleted_item.text}"
 
-        new_data = response.json()
-        assert new_data.get("message") == "Item deleted successfully", "Item didn't delete"
+        data = deleted_item.json()
+        assert data.get("message") == "Item deleted successfully", "Item didn't delete"
         response = auth_session.get(f"{self.endpoint}{item_id}")
         assert response.status_code == 404, \
             f"Response: {response.status_code}, {response.text}"
