@@ -28,15 +28,23 @@
 7. Запустите тесты
     ```bash
    python -m pytest test_items.py -v -s
-   
+   ```
+   ```bash
+   python -m pytest test_security.py -v -s
+   ```
+   ```bash
+   python -m pytest test_negative_cases.py -v -s
+   ```
 ## Структура проекта
     FastApi/
-    ├── .env                    # Локальные переменные (ваши учетные данные)
-    ├── .gitignore              # Игнорируемые файлы
-    ├── requirements.txt        # Зависимости
+    ├── .env                             # Локальные переменные (ваши учетные данные)
+    ├── .gitignore                       # Игнорируемые файлы
+    ├── requirements.txt                 # Зависимости
     ├── tests/
-    │   ├── test_auth.py        # Токен авторизации
-    │   ├── test_items.py       # Тесты для /items
-    │   ├── conftest.py         # Фикстуры
+    │   ├── test_auth.py                 # Токен авторизации
+    │   ├── test_items.py                # Тесты для /items
+    │   ├── test_security.py             # Тесты на безопасность
+    │   ├── test_negative_cases.py       # Негативые тест кейсы
+    │   ├── conftest.py                  # Фикстуры
     ├── config/
-    │   ├── constants.py        # Настройки API (использует .env)
+    │   ├── constants.py                 # Настройки API (использует .env)
