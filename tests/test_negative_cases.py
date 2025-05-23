@@ -8,6 +8,8 @@ class TestNegativeCases:
         response = auth_session.post(self.endpoint, json=invalid_data)
         assert response.status_code == 422, \
             f"Response: {response.status_code}, {response.text}"
+        assert response.status_code != 500,\
+            f"Auth failed: {response.status_code}, {response.text}"
 
         error_message = response.json()
         assert "detail" in error_message, "Missing 'detail' in error response"
@@ -17,6 +19,8 @@ class TestNegativeCases:
         response = auth_session.post(self.endpoint, json=data_with_extra_field)
         assert response.status_code in (200, 201), \
             f"Response: {response.status_code}, {response.text}"
+        assert response.status_code != 500,\
+            f"Auth failed: {response.status_code}, {response.text}"
 
         data = response.json()
         assert data.get("title") == data_with_extra_field["title"]
@@ -38,6 +42,8 @@ class TestNegativeCases:
         response = auth_session.put(f"{self.endpoint}{item_id}", json=item_data)
         assert response.status_code == 404, \
             f"Response: {response.status_code}, {response.text}"
+        assert response.status_code != 500,\
+            f"Auth failed: {response.status_code}, {response.text}"
 
         error_message = response.json()
         assert "detail" in error_message, "Missing 'detail' in error response"
@@ -49,6 +55,8 @@ class TestNegativeCases:
         deleted_item = auth_session.delete(f"{self.endpoint}{item_id}", json=item_data)
         assert deleted_item.status_code == 404, \
             f"Response: {deleted_item.status_code}, {deleted_item.text}"
+        assert deleted_item.status_code != 500,\
+            f"Auth failed: {deleted_item.status_code}, {deleted_item.text}"
 
         error_message = deleted_item.json()
         assert "detail" in error_message, "Missing 'detail' in error response"
@@ -60,6 +68,8 @@ class TestNegativeCases:
         created_response = auth_session.post(self.endpoint, json=item_data)
         assert created_response.status_code == 200, \
             f"Response: {created_response.status_code}, {created_response.text}"
+        assert created_response.status_code != 500,\
+            f"Auth failed: {created_response.status_code}, {created_response.text}"
 
         item_id = created_response.json()["id"]
         first_delete = auth_session.delete(f"{self.endpoint}{item_id}")
