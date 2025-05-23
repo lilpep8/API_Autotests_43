@@ -25,7 +25,11 @@
 6. Перейдите в директорию tests 
     ```bash
     cd FastApi/tests/
-7. Запустите тесты
+7. Запустите все тесты
+   ```bash
+   pytest -v -s
+   ```
+8. Отдельный запуск каждого теста
     ```bash
    python -m pytest test_items.py -v -s
    ```
@@ -35,13 +39,16 @@
    ```bash
    python -m pytest test_negative_cases.py -v -s
    ```
+   ```bash
+   python -m test_auth.py -v -s
+   ```
 ## Структура проекта
     FastApi/
     ├── .env                             # Локальные переменные (ваши учетные данные)
     ├── .gitignore                       # Игнорируемые файлы
     ├── requirements.txt                 # Зависимости
     ├── tests/
-    │   ├── test_auth.py                 # Токен авторизации
+    │   ├── test_auth.py                 # Тест создания и получения item без токена
     │   ├── test_items.py                # Тесты для /items
     │   ├── test_security.py             # Тесты на безопасность
     │   ├── test_negative_cases.py       # Негативые тест кейсы
