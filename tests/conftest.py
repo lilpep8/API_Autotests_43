@@ -71,22 +71,3 @@ def data_with_extra_field():
         "description": "test123",
         "extra_field": "123"
     }
-
-
-@pytest.fixture()
-def sql_injection():
-    return {
-        "title": "Valid_sql'; DROP TABLE users;--",
-        "description": "Hack attempt"
-    }
-
-
-@pytest.fixture()
-def xss_attack():
-    return {
-        "title": "Valid_xss",
-        "description": "<script>alert('XSS');</script>"
-    }
-
-
-

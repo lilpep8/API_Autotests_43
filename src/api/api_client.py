@@ -1,4 +1,4 @@
-from src.config.constants import api_config
+from src.config.api_constants import api_config
 
 
 class ItemApiClient:

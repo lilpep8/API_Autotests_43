@@ -19,7 +19,7 @@ class ItemNegativeScenarios:
 
         error_message = response.json()
         assert "detail" in error_message, "Missing 'detail' in error response"
-        print(f"Запросы с невалидными данными были отклонены со статус кодом {response.status_code}")
+        print(f"✅ Запросы с невалидными данными были отклонены со статус кодом {response.status_code}")
         return error_message
 
 
@@ -37,7 +37,7 @@ class ItemNegativeScenarios:
         assert "extra_field" not in response_created_item_data_with_extra_field.json()
 
         self.api_client.delete_item(extra_item_id)
-        print(f"Item с ID {extra_item_id} успешно создан без дополнительного поля и удален.")
+        print(f"✅ Item с ID {extra_item_id} успешно создан без дополнительного поля и удален.")
         return extra_item_id
 
 
@@ -57,7 +57,7 @@ class ItemNegativeScenarios:
             assert error_message.get("detail") == "Item not found"
         else:
             raise AssertionError("Ожидалась ошибка 404, но она не произошла")
-        print("Удаление Item дважды не вызвало ошибок")
+        print("✅ Удаление Item дважды не вызвало ошибок")
 
 
 
@@ -77,4 +77,4 @@ class ItemNegativeScenarios:
             assert error_message.get("detail") == "Item not found"
         else:
             raise AssertionError("Ожидалась ошибка 404, но она не произошла")
-        print("Редактирование удаленного Item не вызвало ошибок")
+        print("✅ Редактирование удаленного Item не вызвало ошибок")
